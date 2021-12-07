@@ -17,10 +17,6 @@ const {
     },
 } = require('../../../src/entities');
 
-const { 
-    store 
-} = require('../../../src/frameworks/repositories/inMemory/usersRepository');
-
 describe('Users repository', () => {
     test('New user should be added and returned', 
     async () => {

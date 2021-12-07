@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports.product = class Product {
+module.exports.Product = class Product {
     constructor({
         id, 
         name = null,

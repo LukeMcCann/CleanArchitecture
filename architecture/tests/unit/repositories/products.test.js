@@ -18,6 +18,7 @@ describe('Products Repository', () => {
          const testProduct = new Product({
             name: chance.name(),
             description: chance.sentence({ words: 5 }),
+            images: [chance.url(), chance.url()],
             price: chance.euro(), 
             color: chance.color({ format: 'hex' }),
             meta: {}
@@ -80,7 +81,11 @@ describe('Products Repository', () => {
             description: chance.sentence({ words: 5 }),
             price: chance.euro(), 
             color: chance.color({ format: 'hex' }),
-            meta: {}
+            meta: {
+                deliver: {
+                    from: 'China',
+                }
+            }
          });
 
          const [ storedProductToKeep, storedProductToDelete ] = await Promise.all([

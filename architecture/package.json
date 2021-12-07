@@ -1,22 +1,26 @@
 {
-  "name": "clean-architecture",
-  "version": "1.0.0",
-  "description": "Clean architecture example project",
-  "main": "index.js",
-  "scripts": {
-    "start": "pm2 start index",
-    "start-dev": "nodemon --trace-sync-io",
-    "test": "jest"
-  },
-  "author": "Luke McCann",
-  "license": "MIT",
-  "dependencies": {
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "pm2": "^5.1.2"
-  },
-  "devDependencies": {
-    "debug": "^4.3.2",
-    "nodemon": "^2.0.10"
-  }
+    "name": "clean-architecture",
+    "version": "1.0.0",
+    "description": "Clean architecture example project",
+    "main": "index.js",
+    "scripts": {
+        "start": "pm2 start index",
+        "start-dev": "nodemon --trace-sync-io",
+        "test": "jest"
+    },
+    "author": "Luke McCann",
+    "license": "MIT",
+    "dependencies": {
+        "chance": "^1.1.8",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "jest": "^27.4.3",
+        "pm2": "^5.1.2",
+        "uuid": "^8.3.2"
+    },
+    "devDependencies": {
+        "debug": "^4.3.2",
+        "lodash": "^4.17.21",
+        "nodemon": "^2.0.10"
+    }
 }

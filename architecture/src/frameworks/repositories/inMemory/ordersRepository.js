@@ -15,5 +15,21 @@ module.exports = {
     },
     show: async id => {
         return inMemoryDb.orders.find(order => order.id === id);
+    },
+    delete: async order => {
+        let orderDeleted = false; 
+        
+        const orderIndex = inMemoryDb.orders.findIndex(
+            storedOrder => storedOrder.id === order.id
+        )
+
+        if (orderIndex >= 0) {
+            orderDeleted = inMemoryDb.orders.splice(orderIndex, 1);
+        }
+
+        if (orderDeleted) {
+            return { status: 204 };
+        }
+        return { status: 500 };
     }
 }

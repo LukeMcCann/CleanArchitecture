@@ -40,4 +40,47 @@ describe('Orders Repository', () => {
 
         expect(returnedOrder).toEqual(storedOrder);
     });
+
+    test('Order should be deleted',
+    async () => {
+        const orderToKeep = new Order({
+            userId: chance.guid({ version: 4 }),
+            productIds: [
+                chance.guid({ version: 4 }),
+                chance.guid({ version: 4 }),
+            ],
+            date: chance.date(),
+            isPaid: chance.bool(),
+            meta: {},            
+        }); 
+
+        const orderToDelete = new Order({
+            userId: chance.guid({ version: 4 }),
+            productIds: [
+                chance.guid({ version: 4 }),
+                chance.guid({ version: 4 }),
+            ],
+            date: chance.date(),
+            isPaid: chance.bool(),
+            meta: {},            
+        }); 
+
+        const [ storedOrderToKeep, storedOrderToDelete ] = await Promise.all([
+            ordersRepository.store(orderToKeep),
+            ordersRepository.store(orderToDelete),
+        ]);
+
+        expect(storedOrderToKeep).toBeDefined();
+        expect(storedOrderToDelete).toBeDefined();
+
+        const { status } = await ordersRepository.delete(orderToDelete);
+
+        expect(status).toEqual(204);
+
+        const keptOrder = await ordersRepository.show(orderToKeep.id);
+        expect(keptOrder).toEqual(orderToKeep);
+
+        const deletedOrder = await ordersRepository.show(orderToDelete.id);
+        expect(deletedOrder).toBeUndefined();
+    });
 });

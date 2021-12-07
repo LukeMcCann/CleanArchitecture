@@ -28,18 +28,15 @@ module.exports = {
         return { status: 404 };
     },
     delete: async product => {
+        let productDeleted = false; 
+
         const productIndex = inMemoryDb.products.findIndex(
             storedProduct => storedProduct.id === product.id
         );
 
         if (productIndex >= 0) {
-            inMemoryDb.products.splice(productIndex, 1);
+            productDeleted = inMemoryDb.products.splice(productIndex, 1);
         }
-
-        const productDeleted = inMemoryDb.products.findIndex(
-            deletedProduct => deletedProduct.id === product.id
-        );
-
 
         if (productDeleted) {
             return { status: 204 };

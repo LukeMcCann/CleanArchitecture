@@ -28,17 +28,15 @@ module.exports = {
         return { status: 404 };
     },
     delete: async user => {
+        let userDeleted = false; 
+
         const userIndex = inMemoryDb.users.findIndex(
             storedUser => storedUser.id === user.id
         );
 
         if (userIndex >= 0) {
-            inMemoryDb.users.splice(userIndex, 1);
+            userDeleted = inMemoryDb.users.splice(userIndex, 1);
         }
-
-        const userDeleted = inMemoryDb.users.findIndex(
-            deletedUser => deletedUser.id === user.id
-        );
 
         if (userDeleted) {
             return { status: 204 };

@@ -25,7 +25,7 @@ module.exports = {
             inMemoryDb.users[index] = user;
             return inMemoryDb.users[index];
         }
-        return 404;
+        return { status: 404 };
     },
     delete: async user => {
         const userIndex = inMemoryDb.users.findIndex(
@@ -34,9 +34,15 @@ module.exports = {
 
         if (userIndex >= 0) {
             inMemoryDb.users.splice(userIndex);
-            return user;
         }
 
-        return 204;
+        const userDeleted = inMemoryDb.users.findIndex(
+            deletedUser => deletedUser.id === user.id
+        );
+
+        if (userDeleted) {
+            return { status: 204 };
+        }
+        return { status: 500 };
     },
 }

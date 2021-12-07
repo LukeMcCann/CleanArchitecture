@@ -4,7 +4,7 @@ const Chance = require('chance');
 const chance = new Chance();
 
 const { 
-    usersRespository, usersRepository 
+    usersRepository 
 } = require('../../../src/frameworks/repositories/inMemory');
 
 const { 
@@ -34,14 +34,48 @@ describe('Users repository', () => {
         expect(storedUser.name).toBe(testUser.name);
         expect(storedUser.lastName).toBe(testUser.lastName);
         expect(storedUser.meta).toEqual(testUser.meta);
+
+        const returnedUser = await usersRepository.show(storedUser.id);
+        
+        expect(returnedUser).toEqual(storedUser);
     });
 
-    test('New user should be deleted',
+    test('User should be deleted',
     async () => {
+        const userToKeep = new User({
+            name: chance.name(),
+            lastName: chance.last(),
+            gender: genders.MALE, 
+            meta: { hair: { color: 'blonde' }},
+        });
 
+        const userToDelete = new User({
+            name: chance.name(),
+            lastName: chance.last(),
+            gender: genders.UNSPECIFIED, 
+            meta: { hair: { color: 'green' }},
+        });
+
+        const [ storedUserToKeep, storedUserToDelete ] = await Promise.all([
+            usersRepository.store(userToKeep),
+            usersRepository.store(userToDelete)
+        ]);
+
+        expect(storedUserToKeep).toBeDefined();
+        expect(storedUserToDelete).toBeDefined();
+
+        const { status } = await usersRepository.delete(userToDelete);
+
+        expect(status).toEqual(204);
+
+        const keptUser = await usersRepository.show(userToKeep.id)
+        expect(keptUser).toEqual(userToKeep);
+
+        const deletedUser = await usersRepository.show(userToDelete.id);
+        expect(deletedUser).toBeUndefined();
     });
 
-    test('New user should be updated', 
+    test('User should be updated', 
     async () => {
 
     });

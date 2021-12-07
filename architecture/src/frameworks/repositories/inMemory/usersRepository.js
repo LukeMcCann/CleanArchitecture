@@ -1,6 +1,6 @@
 'use strict';
 
-const { inMemory: inMemoryDb } = require('../../database/index');
+const { inMemory: inMemoryDb } = require('../../database');
 const { v4: uuidV4 } = require('uuid');
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
         );
 
         if (userIndex >= 0) {
-            inMemoryDb.users(index) = user;
+            inMemoryDb.users[index] = user;
             return inMemoryDb.users[index];
         }
         return 404;

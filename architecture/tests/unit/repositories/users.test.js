@@ -2,6 +2,7 @@
 
 const Chance = require('chance');
 const chance = new Chance();
+const { cloneDeep } = require('lodash');
 
 const { 
     usersRepository 
@@ -15,7 +16,10 @@ const {
         }, 
     },
 } = require('../../../src/entities');
-const { store } = require('../../../src/frameworks/repositories/inMemory/usersRepository');
+
+const { 
+    store 
+} = require('../../../src/frameworks/repositories/inMemory/usersRepository');
 
 describe('Users repository', () => {
     test('New user should be added and returned', 
@@ -77,6 +81,24 @@ describe('Users repository', () => {
 
     test('User should be updated', 
     async () => {
+        const testUser = new User({
+            name: chance.name(),
+            lastName: chance.last(),
+            gender: genders.UNSPECIFIED, 
+            meta: { hair: { color: 'grey' }}, 
+        });
 
+        const storedUser = await usersRepository.store(testUser);
+        expect(storedUser).toBeDefined();
+
+        const clonedUser = cloneDeep({
+            ...storedUser, 
+            name: chance.name(),
+            gender: genders.MALE,
+        });
+
+        const updatedUser = await usersRepository.update(clonedUser);
+
+        expect(updatedUser).toEqual(clonedUser);
     });
 });

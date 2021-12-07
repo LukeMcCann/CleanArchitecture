@@ -22,8 +22,8 @@ module.exports = {
         );
 
         if (userIndex >= 0) {
-            inMemoryDb.users[index] = user;
-            return inMemoryDb.users[index];
+            inMemoryDb.users[userIndex] = user;
+            return inMemoryDb.users[userIndex];
         }
         return { status: 404 };
     },
@@ -33,7 +33,7 @@ module.exports = {
         );
 
         if (userIndex >= 0) {
-            inMemoryDb.users.splice(userIndex);
+            inMemoryDb.users.splice(userIndex, 1);
         }
 
         const userDeleted = inMemoryDb.users.findIndex(
@@ -43,6 +43,7 @@ module.exports = {
         if (userDeleted) {
             return { status: 204 };
         }
+
         return { status: 500 };
     },
 }

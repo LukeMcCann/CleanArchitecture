@@ -12,5 +12,8 @@ module.exports = {
         inMemoryDb.products.push(product);
 
         return product;
+    },
+    show: async id => {
+        return inMemoryDb.products.find(product => product.id === id);
     }
 }

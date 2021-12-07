@@ -31,5 +31,9 @@ describe('Products Repository', () => {
         expect(storedProduct.price).toBe(testProduct.price);
         expect(storedProduct.color).toBe(testProduct.color);
         expect(storedProduct.meta).toEqual(testProduct.meta);
+
+        const returnedProduct = await productsRepository.show(storedProduct.id);
+
+        expect(returnedProduct).toEqual(storedProduct);
     });
 });

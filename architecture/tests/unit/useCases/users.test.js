@@ -9,6 +9,7 @@ const {
         addUserUseCase, 
         showUserUseCase,
         updateUserUseCase,
+        deleteUserUseCase,
     }
 } = require('../../../src/useCases');
 
@@ -41,6 +42,9 @@ describe('User use cases', () => {
         ), 
         update: jest.fn(
             async user => user
+        ),
+        delete: jest.fn(
+            async user => user
         )
     }
     
@@ -56,7 +60,7 @@ describe('User use cases', () => {
             gender: genders.MALE,
             meta: {
                 hair: {
-                    color: 'burgundy'
+                    color: 'burgundy',
                 }
             }
         }
@@ -115,12 +119,35 @@ describe('User use cases', () => {
         }
 
         const updatedUser = await updateUserUseCase(dependencies).execute({
-            user: testData
+            user: testData,
         });
 
         expect(updatedUser).toEqual(testData);
 
         const expectedUser = mockUserRepo.update.mock.calls[0][0];
         expect(expectedUser).toEqual(updatedUser);
+    });
+
+    test('Delete user use case',
+    async () => {
+        const testData = {
+            id: uuidV4(), 
+            name: chance.name(), 
+            lastName: chance.last(), 
+            gender: genders.MALE,
+            meta: {
+                hobbies: 'Guitar',
+            }
+        }
+
+        const deletedUser = await deleteUserUseCase(dependencies).execute({
+            user: testData,
+        });
+
+        expect(deletedUser).toEqual(testData);
+
+        const expectedUser = mockUserRepo.delete.mock.calls[0][0];
+
+        expect(expectedUser).toEqual(deletedUser);
     });
 });

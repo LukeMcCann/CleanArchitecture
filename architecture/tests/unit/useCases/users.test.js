@@ -143,11 +143,9 @@ describe('User use cases', () => {
         const deletedUser = await deleteUserUseCase(dependencies).execute({
             user: testData,
         });
-
         expect(deletedUser).toEqual(testData);
 
         const expectedUser = mockUserRepo.delete.mock.calls[0][0];
-
         expect(expectedUser).toEqual(deletedUser);
     });
 });

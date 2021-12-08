@@ -14,13 +14,13 @@ module.exports = dependencies => {
         name,
         lastName,
         gender,
-        meta 
+        meta,
     }) => {
         const user = new User({ 
             name,
             lastName, 
             gender, 
-            meta 
+            meta,
         });
 
         return usersRepository.store(user);

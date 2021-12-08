@@ -75,3 +75,17 @@ The software in this later is a set of adapters to convert data from the format 
 ## Frameworks & Drivers
 
 The outermost layer is composed of frameworks and tools. Generally, there should not be much code here, other than glue code which communicates towards the more-inwards facing circles.
+
+# Use Case Layer
+
+The use case is a layer that handles the specific business case logic, this includes validation, mutation, and manipulation of data. It does not however, include the logic for retrieving data.
+
+The use case should know nothing of the web, the frameworks layers or how to retrieve data. The use cas should be reusable in many projects.
+
+The main goal of each use case is to be as abstract as possible from the other layers. It should only include the business logic of the specific use case for that particular use case. For example, the addUser use case should only contain the business logic for adding users.
+
+To keep our layers as abstract as possible we utilise dependency injection. In this instance we are using dependency injection in the Use Case to inject our repositories. This means that our Use Case has no reliance on a concrete implementation and allows us to easily switch out our implementations in a more modular manner. 
+
+# Repository Layer
+
+The repository layer is responsible for fetching data. The use case layers will call the repository logic in order to retrieve the data. 

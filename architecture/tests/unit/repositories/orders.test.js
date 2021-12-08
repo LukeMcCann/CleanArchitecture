@@ -2,7 +2,7 @@
 
 const Chance = require('chance');
 const chance = new Chance();
-const { cloneDeep } = require('lodash');
+const { cloneDeep, update } = require('lodash');
 
 const {
     ordersRepository
@@ -39,6 +39,38 @@ describe('Orders Repository', () => {
         const returnedOrder = await ordersRepository.show(storedOrder.id);
 
         expect(returnedOrder).toEqual(storedOrder);
+    });
+
+    test('Order should be updated', 
+    async () => {
+        const testOrder = new Order({
+            userId: chance.guid({ version: 4}),
+            productIds: [
+                chance.guid({ version: 4 }),
+                chance.guid({ version: 4 }),
+            ],
+            date: chance.date(), 
+            isPaid: chance.bool(),
+            meta: {},
+        });
+
+        const storedOrder = await ordersRepository.store(testOrder);
+        expect(storedOrder).toBeDefined();
+
+        const clonedOrder = cloneDeep({
+            ...storedOrder, 
+            userId: chance.guid({ version: 4 }), 
+            productIds: [
+                chance.guid({ version: 4 }),
+                chance.guid({ version: 4 }), 
+            ],
+            data: chance.date(), 
+            isPaid: chance.bool(), 
+            meta: {},
+        });
+
+        const updatedOrder = await ordersRepository.update(clonedOrder);
+        expect(updatedOrder).toEqual(clonedOrder);
     });
 
     test('Order should be deleted',

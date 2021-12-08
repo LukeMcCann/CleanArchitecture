@@ -1,8 +1,8 @@
 'use strict';
 
-const usersRepository = require('./usersRepository');
-const productsRepository = require('./productsRepository');
-const ordersRepository = require('./ordersRepository');
+const usersRepository = require('./users.repository');
+const productsRepository = require('./products.repository');
+const ordersRepository = require('./orders.repository');
 
 module.exports = {
     usersRepository,

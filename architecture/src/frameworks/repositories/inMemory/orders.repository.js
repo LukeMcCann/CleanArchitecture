@@ -16,6 +16,17 @@ module.exports = {
     show: async id => {
         return inMemoryDb.orders.find(order => order.id === id);
     },
+    update: async order => {
+        const orderIndex = inMemoryDb.orders.findIndex(
+            storedOrder => storedOrder.id === order.id
+        );
+
+        if (orderIndex >= 0) {
+            inMemoryDb.orders[orderIndex] = order; 
+            return inMemoryDb.orders[orderIndex];
+        }
+        return { status: 404 };
+    },
     delete: async order => {
         let orderDeleted = false; 
         

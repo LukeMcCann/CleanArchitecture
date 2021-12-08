@@ -94,7 +94,6 @@ describe('Users repository', () => {
         });
 
         const updatedUser = await usersRepository.update(clonedUser);
-
         expect(updatedUser).toEqual(clonedUser);
     });
 });

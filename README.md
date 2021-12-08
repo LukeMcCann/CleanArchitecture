@@ -89,3 +89,29 @@ To keep our layers as abstract as possible we utilise dependency injection. In t
 # Repository Layer
 
 The repository layer is responsible for fetching data. The use case layers will call the repository logic in order to retrieve the data. 
+
+# Clean Architecture - Layers Breakdown
+
+- Domain: Contains Entities (Business Models) and Repository Interfaces.
+- Application: Contains Service Interfaces and their Services, DTOs (Data Transfer Objects) and View Models.
+- Data: Contains EF Core types (DbContext, Migration), Data access implementation types (Repositories),
+  Infrastructure-specific services (for example, FileLogger or SmtpNotifier).
+- Infrastructure.IoC:  Contains Dependency Container class to help implement Dependency Inversion.
+  User Interface Types: Includes Controllers, Filters, Views, Startup.
+- Tests Types: Includes Unit Tests, Integration Tests.
+# Clean Architecture - Benefits Breakdown
+
+- Separates each layer into independently testable units
+- Framework independent
+- Database independent
+- UI independent
+- Highly testable
+- Highly maintainable
+- Highly scalable
+
+As mentioned previously, we no longer require the use of a view on the backend. Since views were abstracted into their
+own services MVC has become a somewhat outdate way of architecting projects. This is because MVC adds a layer of complexity not beneficial to the developer. When we look at an MVC application from the highest layer of abstraction we find the application tells us the components from which it is built, rather than what it does. This can lead to messy code, interdependency, and cause code to become difficult to extend. Clean Architecture aims to make implementing new features easier, enabling developers to work on small pieces of functionality abstracted away from the larger picture. This means that when changes are made to the outermost circles we need not worry about breaking functionality elsewhere. 
+
+Our entities being abstracted to this level also means they should be reusable accross projects and services, making future projects of similar functionality faster to build, and again, easier to maintain. This architecture can take a while to get used to and comes with a bit of a learning curve to implement, however, it does encourage developers to move towards more test driven development. In building this example I found myself often writing Jest tests to describe the functionality of the Use Case or Entity before even beginning to look at writing the functionality itself. Clean architecture shifts the developers primary focus from the application logic to the domain logic, encouraging greater thought regarding business logic. 
+
+Whilst I believe this to fit our domain well, it is important to recognise this architecture may need to be adapted as we go. Essentially this architecture employs a domain driven design, which works well for front end intensive applications and APIs, but solutions would need to be found for any backend intensive sections we may introduce. 

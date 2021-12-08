@@ -8,6 +8,7 @@ const {
     user: {
         addUserUseCase, 
         showUserUseCase,
+        updateUserUseCase,
     }
 } = require('../../../src/useCases');
 
@@ -37,6 +38,9 @@ describe('User use cases', () => {
                 gender: genders.FEMALE,
                 meta: {}
             })
+        ), 
+        update: jest.fn(
+            async user => user
         )
     }
     
@@ -90,5 +94,33 @@ describe('User use cases', () => {
 
         const expectedId = mockUserRepo.show.mock.calls[0][0];
         expect(expectedId).toBe(mockId);
+    });
+
+    test('Update user use case',
+    async () => {
+        const testData = {
+            id: uuidV4(),
+            name: chance.name(),
+            lastName: chance.lastName,
+            gender: genders.MALE, 
+            meta: {
+                education: {
+                    degree: {
+                        title: 'Software Engineering',
+                        level: 'MEng',
+                        grade: '1st'
+                    }
+                }
+            }
+        }
+
+        const updatedUser = await updateUserUseCase(dependencies).execute({
+            user: testData
+        });
+
+        expect(updatedUser).toEqual(testData);
+
+        const expectedUser = mockUserRepo.update.mock.calls[0][0];
+        expect(expectedUser).toEqual(updatedUser);
     });
 });

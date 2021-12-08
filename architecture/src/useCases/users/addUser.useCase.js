@@ -17,7 +17,7 @@ module.exports = dependencies => {
         meta 
     }) => {
         const user = new User({ 
-            name, 
+            name,
             lastName, 
             gender, 
             meta 

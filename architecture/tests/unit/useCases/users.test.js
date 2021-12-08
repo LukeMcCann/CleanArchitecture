@@ -1,14 +1,14 @@
 'use strict';
 
 const Chance = require('chance');
-const { userConstants } = require('../../../src/entities/User');
 const chance = new Chance();
 const { v4: uuidV4 } = require('uuid');
 
 const { 
     user: {
-        addUserUseCase
-    }, user,
+        addUserUseCase, 
+        showUserUseCase,
+    }
 } = require('../../../src/useCases');
 
 const { 
@@ -23,10 +23,21 @@ const {
 describe('User use cases', () => {
 
     const mockUserRepo = {
-        store: jest.fn(async user => ({
-            ...user, 
-            id: uuidV4()
-        }))
+        store: jest.fn(
+            async user => ({
+                ...user, 
+                id: uuidV4()
+            })
+        ),
+        show: jest.fn(
+            async id => ({
+                id,
+                name: chance.name(),
+                lastName: chance.last(),
+                gender: genders.FEMALE,
+                meta: {}
+            })
+        )
     }
     
     const dependencies = {
@@ -62,5 +73,22 @@ describe('User use cases', () => {
         expect(call.lastName).toBe(testUserData.lastName);
         expect(call.gender).toBe(testUserData.gender);
         expect(call.meta).toBe(testUserData.meta);
+    });
+
+    test('Show user use case',
+    async () => {
+        const mockId = uuidV4();
+
+        const userById = await showUserUseCase(dependencies).execute({ id: mockId });
+
+        expect(userById).toBeDefined();
+        expect(userById.id).toBe(mockId);
+        expect(userById.name).toBeDefined();
+        expect(userById.lastName).toBeDefined();
+        expect(userById.gender).toBeDefined();
+        expect(userById.meta).toBeDefined();
+
+        const expectedId = mockUserRepo.show.mock.calls[0][0];
+        expect(expectedId).toBe(mockId);
     });
 });

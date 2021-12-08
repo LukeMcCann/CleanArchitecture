@@ -13,7 +13,7 @@ const {
 const {
     Product,
 } = require('../../../src/entities');
-const { showProductUseCase } = require('../../../src/useCases/products');
+const { showProductUseCase, updateProductUseCase } = require('../../../src/useCases/products');
 
 describe('Product use cases', () => {
 
@@ -34,6 +34,9 @@ describe('Product use cases', () => {
                 color: chance.color({ format: 'hex' }),
                 meta: {},
             })
+        ),
+        update: jest.fn(
+            async product => product,
         )
     }
 
@@ -73,7 +76,7 @@ describe('Product use cases', () => {
         expect(call.meta).toEqual(testProductData.meta);
     });
 
-    test('Show user use case',
+    test('Show product use case',
     async () => {
         const mockId = uuidV4();
 
@@ -90,5 +93,26 @@ describe('Product use cases', () => {
 
         const expectedId = mockProductRepo.show.mock.calls[0][0];
         expect(expectedId).toBe(mockId);
+    });
+
+    test('Update product use case', 
+    async () => {
+        const testProductData = {
+            id: uuidV4(),
+            name: chance.name(),
+            describe: chance.sentence({ words: 5 }),
+            images: [chance.url(), chance.url()],
+            price: chance.euro(),
+            color: chance.color({ format: 'hex' }),
+            meta: {},
+        }
+
+        const updatedProduct = await updateProductUseCase(dependencies).execute({
+            product: testProductData,
+        });
+        expect(updatedProduct).toEqual(testProductData);
+
+        const expectedProduct = mockProductRepo.update.mock.calls[0][0];
+        expect(expectedProduct).toEqual(updatedProduct);
     });
 });

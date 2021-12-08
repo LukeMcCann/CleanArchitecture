@@ -2,19 +2,19 @@
 
 module.exports = dependencies => {
 
-    const { usersRepository } = dependencies;
+    const { productsRepository } = dependencies;
 
-    if (!usersRepository) {
+    if (!productsRepository) {
         throw new Error('The users repository dependency does not exist!');
     }
 
     const execute = ({
-        user = {},
+        product = {},
     }) => {
-        return usersRepository.update(user);
-    };
+        return productsRepository.update(product);
+    }
 
     return { 
-        execute,
+        execute, 
     };
 }

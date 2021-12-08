@@ -102,7 +102,7 @@ describe('User use cases', () => {
 
     test('Update user use case',
     async () => {
-        const testData = {
+        const testUserData = {
             id: uuidV4(),
             name: chance.name(),
             lastName: chance.lastName,
@@ -119,10 +119,10 @@ describe('User use cases', () => {
         }
 
         const updatedUser = await updateUserUseCase(dependencies).execute({
-            user: testData,
+            user: testUserData,
         });
 
-        expect(updatedUser).toEqual(testData);
+        expect(updatedUser).toEqual(testUserData);
 
         const expectedUser = mockUserRepo.update.mock.calls[0][0];
         expect(expectedUser).toEqual(updatedUser);
@@ -130,7 +130,7 @@ describe('User use cases', () => {
 
     test('Delete user use case',
     async () => {
-        const testData = {
+        const testUserData = {
             id: uuidV4(), 
             name: chance.name(), 
             lastName: chance.last(), 
@@ -141,9 +141,9 @@ describe('User use cases', () => {
         }
 
         const deletedUser = await deleteUserUseCase(dependencies).execute({
-            user: testData,
+            user: testUserData,
         });
-        expect(deletedUser).toEqual(testData);
+        expect(deletedUser).toEqual(testUserData);
 
         const expectedUser = mockUserRepo.delete.mock.calls[0][0];
         expect(expectedUser).toEqual(deletedUser);

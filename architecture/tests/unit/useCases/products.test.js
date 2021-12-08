@@ -13,6 +13,7 @@ const {
 const {
     Product,
 } = require('../../../src/entities');
+const { showProductUseCase } = require('../../../src/useCases/products');
 
 describe('Product use cases', () => {
 
@@ -21,6 +22,17 @@ describe('Product use cases', () => {
             async product => ({
                 ...product, 
                 id: uuidV4(),
+            })
+        ),
+        show: jest.fn(
+            async id => ({
+                id,
+                name: chance.name(),
+                description: chance.sentence({ words: 5 }),
+                images: [chance.url(), chance.url()],
+                price: chance.euro(),
+                color: chance.color({ format: 'hex' }),
+                meta: {},
             })
         )
     }
@@ -59,5 +71,24 @@ describe('Product use cases', () => {
         expect(call.price).toBe(testProductData.price);
         expect(call.color).toBe(testProductData.color);
         expect(call.meta).toEqual(testProductData.meta);
+    });
+
+    test('Show user use case',
+    async () => {
+        const mockId = uuidV4();
+
+        const productById = await showProductUseCase(dependencies).execute({ id: mockId });
+
+        expect(productById).toBeDefined();
+        expect(productById.id).toBe(mockId);
+        expect(productById.name).toBeDefined();
+        expect(productById.description).toBeDefined();
+        expect(productById.images).toBeDefined();
+        expect(productById.price).toBeDefined();
+        expect(productById.color).toBeDefined();
+        expect(productById.meta).toBeDefined();
+
+        const expectedId = mockProductRepo.show.mock.calls[0][0];
+        expect(expectedId).toBe(mockId);
     });
 });

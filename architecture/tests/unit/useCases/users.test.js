@@ -28,7 +28,7 @@ describe('User use cases', () => {
         store: jest.fn(
             async user => ({
                 ...user, 
-                id: uuidV4()
+                id: uuidV4(),
             })
         ),
         show: jest.fn(
@@ -37,7 +37,7 @@ describe('User use cases', () => {
                 name: chance.name(),
                 lastName: chance.last(),
                 gender: genders.FEMALE,
-                meta: {}
+                meta: {},
             })
         ), 
         update: jest.fn(

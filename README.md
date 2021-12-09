@@ -90,6 +90,28 @@ To keep our layers as abstract as possible we utilise dependency injection. In t
 
 The repository layer is responsible for fetching data. The use case layers will call the repository logic in order to retrieve the data. 
 
+# Controllers
+
+Every contorller has it's own file which handles the user request and returns the appropriate response. 
+In order to attain the responses the controllers communicate with the Use Case layer. This adheres
+to out diagram model as out entities have no dependency, the useCases are only depdent on the
+entities and the Controllers on the Use Cases. If you look at each layer you can see how the application
+is built from the centre outwards to ensure minimal dependency between layers, wiht all dependencies
+pointing inwards to the central layer. Every controller must be connected to the Express router, 
+to make the API responses predictable we utilise a contracts layer .
+
+# Service/Response Contracts
+
+The response contracts layer is a layer that is used in every response, it ensures that
+all of our API responses adhere to the same structural rules. Contracts are important
+when working with microservices, separated front ends, or any other paradigm that requires
+networked information between two points. When structured data is expected it is important we adhere to the same structure to make our API's responses predictable and easy to use for other users or services which
+may connect to our API.
+
+# Error Handler
+
+The error Application Error Handler creates responses to the user in the case of errors. This is connected via the last middleware and will generate a structured response to the user containing useful information about the error. 
+
 # Clean Architecture - Layers Breakdown
 
 - Domain: Contains Entities (Business Models) and Repository Interfaces.

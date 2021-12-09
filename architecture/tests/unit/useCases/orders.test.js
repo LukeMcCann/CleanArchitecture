@@ -6,7 +6,8 @@ const { v4: uuidV4 } = require('uuid');
 
 const {
     order: {
-        addOrderUseCase
+        addOrderUseCase,
+        updateOrderUseCase,
     }
 } = require('../../../src/useCases');
 
@@ -18,6 +19,9 @@ describe('Order use cases', () => {
                 ...order,
                 id: uuidV4(),
             }) 
+        ),
+        update: jest.fn(
+            async order => order,
         )
     }
 
@@ -52,5 +56,23 @@ describe('Order use cases', () => {
         expect(call.date).toBe(testOrderData.date);
         expect(call.isPaid).toBe(testOrderData.isPaid);
         expect(storedOrder.meta).toBe(testOrderData.meta);
+    });
+
+    test('Update order use case', 
+    async () => {
+        const testOrderData = {
+            userId: uuidV4(),
+            productIds: [uuidV4(), uuidV4()],
+            date: chance.date(),
+            isPaid: chance.bool(),
+            meta: {},
+        }
+        const updatedOrder = await updateOrderUseCase(dependencies).execute({
+            order: testOrderData
+        });
+        expect(updatedOrder).toEqual(testOrderData);
+
+        const expectedOrder = mockOrderRepo.update.mock.calls[0][0];
+        expect(expectedOrder).toEqual(updatedOrder);
     });
 });

@@ -9,6 +9,7 @@ const {
         addOrderUseCase,
         updateOrderUseCase,
         deleteOrderUseCase,
+        showOrderUseCase,
     }
 } = require('../../../src/useCases');
 
@@ -20,6 +21,16 @@ describe('Order use cases', () => {
                 ...order,
                 id: uuidV4(),
             }) 
+        ),
+        show: jest.fn(
+            async id => ({
+                id, 
+                userId: uuidV4(),
+                productIds: [uuidV4(), uuidV4()],
+                date: chance.date(), 
+                isPaid: chance.bool, 
+                meta: {},
+            })
         ),
         update: jest.fn(
             async order => order,
@@ -97,5 +108,24 @@ describe('Order use cases', () => {
 
         const expectedOrder = mockOrderRepo.delete.mock.calls[0][0];
         expect(expectedOrder).toEqual(deletedOrder);
+    });
+
+    test('Show order use case',
+    async () => {
+        const mockId = uuidV4();
+
+        const orderById = await showOrderUseCase(dependencies).execute({
+            id: mockId
+        });
+
+        expect(orderById).toBeDefined();
+        expect(orderById.id).toBe(mockId);
+        expect(orderById.productIds).toBeDefined(); 
+        expect(orderById.date).toBeDefined();
+        expect(orderById.isPaid).toBeDefined();
+        expect(orderById.meta).toBeDefined();
+
+        const expectedId = mockOrderRepo.show.mock.calls[0][0];
+        expect(expectedId).toBe(mockId);
     });
 });

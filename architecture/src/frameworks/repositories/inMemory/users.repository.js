@@ -33,7 +33,7 @@ module.exports = {
         );
 
         if (userIndex >= 0) {
-            userDeleted = inMemoryDb.users.splice(userIndex, 1);
+            inMemoryDb.users.splice(userIndex, 1);
             return user; 
         }
         return null;

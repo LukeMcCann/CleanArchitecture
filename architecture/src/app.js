@@ -1,13 +1,31 @@
 'use strict';
 
 require('dotenv').config();
+
 const express = require('express');
-const app = express();
+
+const APP = express();
+
 const PORT = process.env.PORT || 3000;
+
+const ROUTES = require('./frameworks/express/routes');
+
+const API_PREFIX = process.env.API_PREFIX = '/api/v1';
 
 module.exports = {
     start: () => {
-        app.listen(PORT, () => {
+        // Middleware
+        APP.use(express.json());
+        APP.express.urlencoded({
+            extended: true,
+        });
+
+        // Routes 
+        APP.use(API_PREFIX, ROUTES(dependencies))
+        
+        // Common Error handler
+
+        APP.listen(PORT, () => {
             console.log(`Listening on port: ${PORT}`);
         });
     }

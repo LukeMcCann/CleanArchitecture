@@ -4,7 +4,13 @@ const { Response } = require('../../frameworks/common/Response');
 
 module.exports = dependencies => {
 
-    const { useCases: addUserUseCase } = dependencies;
+    const { 
+        useCases: {
+            user: {
+                addUserUseCase,
+            }
+        }
+    } = dependencies;
 
     return addUser = async (req, res, next) => {
         try {
@@ -40,6 +46,4 @@ module.exports = dependencies => {
             next(err);
         }
     }
-
-    return addUser;
 }

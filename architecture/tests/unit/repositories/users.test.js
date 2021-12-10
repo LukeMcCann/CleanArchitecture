@@ -64,15 +64,13 @@ describe('Users repository', () => {
         expect(storedUserToKeep).toBeDefined();
         expect(storedUserToDelete).toBeDefined();
 
-        const { status } = await usersRepository.delete(userToDelete);
+        const deletedUser = await usersRepository.delete(storedUserToDelete);
 
-        expect(status).toEqual(204);
-
-        const keptUser = await usersRepository.show(userToKeep.id)
+        const keptUser = await usersRepository.show(storedUserToKeep.id)
         expect(keptUser).toEqual(userToKeep);
 
-        const deletedUser = await usersRepository.show(userToDelete.id);
-        expect(deletedUser).toBeUndefined();
+        const deletedUserA = await usersRepository.show(storedUserToDelete.id);
+        expect(deletedUserA).toBeUndefined();
     });
 
     test('User should be updated', 

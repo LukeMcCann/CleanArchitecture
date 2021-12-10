@@ -1,16 +1,54 @@
 'use strict';
 
-const addUserController = require('./addUser.controller');
-const showUserController = require('./showUser.controller');
-const updateUserController = require('./updateUser.controller');
-const deleteUserController = require('./deleteUser.controller');
+const {
+    Response, 
+} = require('../../frameworks/common');
 
 module.exports = dependencies => {
 
-    return {
-        addUserController: addUserController, 
-        showUserController: showUserController, 
-        updateUserController: updateUserController, 
-        deleteUserController: deleteUserController,
+    const {
+        useCases: {
+            user: {
+                updateUserUseCase, 
+            }
+        }
+    } = dependencies;
+
+    return updateUser = async (req, res, next) => {
+        try {
+            const {
+                body = {},
+            } = req; 
+
+            const {
+                id, 
+                name, 
+                lastName, 
+                gender, 
+                meta,
+            } = body; 
+
+
+            const updateUser = updateUserUseCase(dependencies);
+            const response = await updateUser.execute({
+                user: {
+                    id, 
+                    name, 
+                    lastName, 
+                    gender, 
+                    meta,
+                }
+            });
+
+            res.json(new Response({
+                status: true, 
+                content: response, 
+            }));
+
+            next();
+            
+        } catch(err) {
+            next(err);
+        }
     }
 }

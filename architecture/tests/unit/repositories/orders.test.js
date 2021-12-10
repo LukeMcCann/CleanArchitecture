@@ -105,14 +105,16 @@ describe('Orders Repository', () => {
         expect(storedOrderToKeep).toBeDefined();
         expect(storedOrderToDelete).toBeDefined();
 
-        const { status } = await ordersRepository.delete(orderToDelete);
+        const deletedOrderA = await ordersRepository.delete(storedOrderToDelete);
+        expect(deletedOrderA).toEqual(storedOrderToDelete);
 
-        expect(status).toEqual(204);
+        const keptOrderB = await ordersRepository.show(storedOrderToKeep.id);
+        expect(keptOrderB).toEqual(orderToKeep);
 
-        const keptOrder = await ordersRepository.show(orderToKeep.id);
-        expect(keptOrder).toEqual(orderToKeep);
+        const deletedOrderC = await ordersRepository.show(storedOrderToDelete.id);
+        expect(deletedOrderC).toBeUndefined();
 
-        const deletedOrder = await ordersRepository.show(orderToDelete.id);
-        expect(deletedOrder).toBeUndefined();
+        const persistingOrder = await ordersRepository.show(storedOrderToKeep.id);
+        expect(persistingOrder).toBeDefined();
     });
 });

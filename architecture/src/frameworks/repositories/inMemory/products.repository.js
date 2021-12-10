@@ -33,7 +33,7 @@ module.exports = {
         );
 
         if (productIndex >= 0) {
-            productDeleted = inMemoryDb.products.splice(productIndex, 1);
+            inMemoryDb.products.splice(productIndex, 1);
             return product;
         }
         return null;

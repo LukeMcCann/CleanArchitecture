@@ -96,14 +96,16 @@ describe('Products Repository', () => {
         expect(storedProductToKeep).toBeDefined();
         expect(storedProductToDelete).toBeDefined();
 
-         const { status } = await productsRepository.delete(storedProductToDelete);
-
-         expect(status).toEqual(204);
+         const deletedProductA = await productsRepository.delete(storedProductToDelete);
+         expect(deletedProductA).toEqual(storedProductToDelete);
 
          const keptProduct = await productsRepository.show(productToKeep.id)
-         expect(keptProduct).toEqual(productToKeep);
+         expect(keptProduct).toEqual(storedProductToKeep);
  
-         const deletedProduct = await productsRepository.show(productToDelete.id);
-         expect(deletedProduct).toBeUndefined();
+         const deletedProductB = await productsRepository.show(productToDelete.id);
+         expect(deletedProductB).toBeUndefined();
+
+         const definedProduct = await productsRepository.show(storedProductToKeep.id);
+         expect(definedProduct).toBeDefined();
     });
 });

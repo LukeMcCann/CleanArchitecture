@@ -6,6 +6,14 @@ const {
 
 module.exports = dependencies => {
 
+    const {
+        useCases: {
+            user: {
+                deleteUserUseCase,
+            }
+        }
+    } = dependencies;
+
     return deleteUser = async (req, res, next) => {
         try {
             const {

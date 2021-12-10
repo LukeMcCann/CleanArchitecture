@@ -8,6 +8,8 @@ const APP = express();
 
 const PORT = process.env.PORT || 3000;
 
+const dependencies = require('./config/dependencies');
+
 const ROUTES = require('./frameworks/express/routes');
 
 const API_PREFIX = process.env.API_PREFIX = '/api/v1';
@@ -16,9 +18,9 @@ module.exports = {
     start: () => {
         // Middleware
         APP.use(express.json());
-        APP.express.urlencoded({
+        APP.use(express.urlencoded({
             extended: true,
-        });
+        }));
 
         // Routes 
         APP.use(API_PREFIX, ROUTES(dependencies))

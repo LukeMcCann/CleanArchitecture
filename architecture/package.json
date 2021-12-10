@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "pm2 start index",
-    "start-dev": "nodemon --trace-sync-io",
+    "start-dev": "nodemon",
     "test": "jest"
 },
   "keywords": [

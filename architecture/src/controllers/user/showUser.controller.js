@@ -6,13 +6,13 @@ const {
 
 module.exports = dependencies => {
 
-    const {
+    const { 
         useCases: {
             user: {
                 showUserUseCase,
             }
-        } = dependencies
-    }
+        }
+    } = dependencies;
 
 
     return showUser = async (req, res, next) => {

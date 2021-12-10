@@ -2,7 +2,7 @@
 
 const { 
     Response 
-} = require('../../frameworks/common/Response');
+} = require('../../frameworks/common');
 
 module.exports = dependencies => {
     

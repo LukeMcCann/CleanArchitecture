@@ -2,7 +2,7 @@
 
 const {
     Response, 
-} = require('../../frameworks/common/Response');
+} = require('../../frameworks/common');
 
 module.exports = dependencies => {
 
@@ -50,6 +50,5 @@ module.exports = dependencies => {
         next();
     } catch(err) {
         next(err);
-    }
-    
+    }   
 }

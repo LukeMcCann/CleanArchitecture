@@ -1,6 +1,8 @@
 'use strict';
 
-const { Response } = require('../../frameworks/common/Response');
+const { 
+    Response,
+} = require('../../frameworks/common');
 
 module.exports = dependencies => {
 

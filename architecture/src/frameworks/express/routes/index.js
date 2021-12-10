@@ -4,6 +4,7 @@ const express = require('express');
 
 const usersRouter = require('./users');
 const productsRouter = require('./products.js');
+const ordersRouter = require('./orders');
 
 module.exports = dependencies => {
     
@@ -11,9 +12,11 @@ module.exports = dependencies => {
 
     const users = usersRouter(dependencies);
     const products = productsRouter(dependencies);
+    const orders = ordersRouter(dependencies);
 
     routes.use('/users', users);
     routes.use('/products', products);
+    routes.use('/orders', orders);
 
     return routes; 
 }

@@ -1,8 +1,13 @@
 'use strict';
 
-const { Response, ResponseError } = require('./Response');
+const { 
+    Response, 
+    ResponseError, 
+    ValidationError 
+} = require('./Response');
 
 module.exports = {
     Response, 
     ResponseError,
+    ValidationError,
 }

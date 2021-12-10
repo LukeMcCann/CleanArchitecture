@@ -13,6 +13,7 @@ module.exports = (err, req, res, next) => {
         reason: err.reason || err.stack || 'Something went wrong!',
         url: req.originalUrl, 
         ip: req.ip,
+        validationErrors: err.validationErrors,
     });
 
     req.status(error.status);

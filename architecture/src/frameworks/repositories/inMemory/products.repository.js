@@ -25,23 +25,17 @@ module.exports = {
             inMemoryDb.products[productIndex] = product;
             return inMemoryDb.products[productIndex];
         }
-        return { status: 404 };
+        return null;
     },
     delete: async product => {
-        let productDeleted = false; 
-
         const productIndex = inMemoryDb.products.findIndex(
             storedProduct => storedProduct.id === product.id
         );
 
         if (productIndex >= 0) {
             productDeleted = inMemoryDb.products.splice(productIndex, 1);
+            return product;
         }
-
-        if (productDeleted) {
-            return { status: 204 };
-        }
-
-        return { status: 500 };
+        return null;
     }
 }

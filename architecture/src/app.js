@@ -2,7 +2,6 @@
 
 require('dotenv').config();
 
-const { application } = require('express');
 const express = require('express');
 
 const APP = express();
@@ -15,7 +14,7 @@ const ErrorHandler = require('./frameworks/express/ErrorHandler');
 
 const ROUTES = require('./frameworks/express/routes');
 
-const API_PREFIX = process.env.API_PREFIX = '/api/v1';
+const API_PREFIX = process.env.API_PREFIX || '/api/v1';
 
 module.exports = {
     start: () => {
